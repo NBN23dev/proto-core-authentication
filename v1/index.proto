@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+// Package authentication describes the publisher service and all corresponding GRPCs.
+package authentication.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "gen/go";
+
+message JWK {
+  string kid = 1;
+  string alg = 2;
+  string use = 3;
+  string kty = 4;
+  string e = 5;
+  string n = 6;
+}
+
+// Requests
+message PublicKeysRequest {}
+
+// Responses
+message PublicKeysResponse {
+  repeated JWK keys = 1;
+}
+
+// Services
+service AuthenticationService {
+  // Get all public keys.
+  rpc GetPublicKeys (PublicKeysRequest) returns (PublicKeysResponse) {
+    option (google.api.http) = {
+      get: "/v1/keys/public"
+    };
+  }
+}
