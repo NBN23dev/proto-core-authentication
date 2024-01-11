@@ -1,0 +1,104 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "v1/index.proto",
+    "description": "Package authentication describes the publisher service and all corresponding GRPCs.",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "AuthenticationService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/keys/public": {
+      "get": {
+        "summary": "Get all public keys.",
+        "operationId": "AuthenticationService_PublicKeys",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PublicKeysResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "AuthenticationService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1JWK": {
+      "type": "object",
+      "properties": {
+        "kid": {
+          "type": "string"
+        },
+        "kty": {
+          "type": "string"
+        },
+        "e": {
+          "type": "string"
+        },
+        "n": {
+          "type": "string"
+        }
+      }
+    },
+    "v1PublicKeysResponse": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1JWK"
+          }
+        }
+      },
+      "title": "Responses"
+    }
+  }
+}

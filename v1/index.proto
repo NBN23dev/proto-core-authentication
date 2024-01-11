@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+// Package authentication describes the publisher service and all corresponding GRPCs.
+package authentication.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "gen/go";
+
+// Publish mode.
+enum Mode {
+  // Default mode, the events are append to the end of the stream.
+  APPEND = 0;
+  // The last event replaces the previous one. Stream is capped to one item.
+  REPLACE = 1;
+}
+
+message JWK {
+  string kid = 1;
+  string kty = 2;
+  string e = 3;
+  string n = 4;
+}
+
+// Requests
+message PublicKeysRequest {}
+
+// Responses
+message PublicKeysResponse {
+  repeated JWK keys = 1;
+}
+
+// Services
+service AuthenticationService {
+  // Get all public keys.
+  rpc PublicKeys (PublicKeysRequest) returns (PublicKeysResponse) {
+    option (google.api.http) = {
+      get: "/v1/keys/public"
+    };
+  }
+}
